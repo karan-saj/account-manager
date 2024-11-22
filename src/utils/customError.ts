@@ -1,3 +1,6 @@
+/**
+ * Custom error class
+ */
 export class CustomError extends Error {
     public statusCode: number;
     public errorCode: string;

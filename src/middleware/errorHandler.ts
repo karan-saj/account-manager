@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { CustomError } from '../utils/customError'; // Import CustomError for structured errors
+import { CustomError } from '../utils/customError';
 
 /**
- * Global error handling middleware.
+ * Global error handler middleware.
+ * @param err Custom Error
+ * @returns 
  */
-const globalErrorHandler = (
-  err: Error | CustomError,
-  _req: Request,
-  res: Response,
-  _next: NextFunction
-): Response => {
-  // Handle CustomError instances with predefined structure
+export const globalErrorHandler = (
+  err: Error | CustomError, 
+  _req: Request, res: Response,
+  _next: NextFunction ): any => {
+  // Handle CustomError
   if (err instanceof CustomError) {
     return res.status(err.statusCode).json({
       error: {
@@ -21,8 +21,8 @@ const globalErrorHandler = (
     });
   }
 
-  // Handle generic errors
-  console.error('Unexpected Error:', err); // Log the error for debugging
+  // Handle unexpected errors
+  console.error('Unexpected Error:', err);
 
   return res.status(500).json({
     error: {
@@ -31,7 +31,3 @@ const globalErrorHandler = (
     },
   });
 };
-
-export {
-  globalErrorHandler,
-}

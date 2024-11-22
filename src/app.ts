@@ -1,29 +1,35 @@
-import express, { Request, Response, NextFunction } from 'express';
-import { config } from './config'; // Importing the configuration
-import bodyParser from 'body-parser';
+import express, { Application, Request, Response, NextFunction } from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import balanceSheetRoutes from './routes/balanceSheetRoutes';
+import { globalErrorHandler } from './middleware/errorHandler';
 
-const app = express();
+// Load environment
+dotenv.config();
 
-// Middleware
-app.use(bodyParser.json()); // To parse JSON payloads
-app.use(bodyParser.urlencoded({ extended: true })); // For URL-encoded payloads
+const app: Application = express();
+const PORT = process.env.PORT || 3010;
 
-// Health Check Route
-app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'UP', environment: config.environment });
+app.use(cors({
+    origin: 'https:localhost:8090/',
+    methods: ['GET'],
+}));
+app.use(express.json());
+
+// Routes for balance sheet
+app.use('/balanceSheet', balanceSheetRoutes);
+
+// Health Check
+app.get('/ping', (req: Request, res: Response) => {
+  res.status(200).send({ message: 'pong' });
 });
 
 // Global Error Handler
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.error('Error:', err.message);
-  res.status(err.status || 500).json({
-    error: {
-      message: err.message || 'Internal Server Error',
-    },
-  });
+app.use(globalErrorHandler);
+
+// Starts the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
-// Start the Server
-app.listen(config.port, () => {
-  console.log(`Server running on port ${config.port} in ${config.environment} mode`);
-});
+export default app;
