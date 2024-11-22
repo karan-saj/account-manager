@@ -9,6 +9,7 @@ export const config = {
   xeroApiUrl: process.env.XERO_API_URL || '',
   xeroClientId: process.env.XERO_CLIENT_ID || '',
   xeroClientSecret: process.env.XERO_CLIENT_SECRET || '',
+  retryCount: process.env.RETRY_COUNT || 3,
 };
 
 // Log to verify the environment configuration
