@@ -9,6 +9,15 @@
     "dev": "NODE_ENV=dev ts-node-dev src/app.ts",
     "start": "NODE_ENV=prod ts-node src/app.ts"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "testMatch": ["**/*.test.ts"]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,7 +30,6 @@
     "express": "^4.21.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
-    "winston": "^3.17.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
