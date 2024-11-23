@@ -5,7 +5,7 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV || 'prod'}` });
 
 export const config = {
   environment: process.env.NODE_ENV || 'prod',
-  port: parseInt(process.env.PORT || '3010', 10),
+  port: parseInt(process.env.PORT || '8080', 10),
   xeroApiUrl: process.env.XERO_API_URL || '',
   xeroClientId: process.env.XERO_CLIENT_ID || '',
   xeroClientSecret: process.env.XERO_CLIENT_SECRET || '',
