@@ -1,4 +1,4 @@
-import { httpClient } from '../utils/restClient';
+import { httpGetRequest } from '../utils/restClient';
 import { BalanceSheetPayload, BalanceSheetResponse } from '../types/balanceSheet';
 import { CustomError } from '../utils/customError';
 import { config } from '../config';
@@ -16,22 +16,9 @@ export class BalanceSheetService {
    */
   public async getBalanceSheetData(payload: BalanceSheetPayload): Promise<any> {
     try {
-      
-      // API URL to get balance sheet report
-      const url = config.xeroApiUrl + GET_BALANCE_SHEET_PATH;
-
       // http client get request
-      const responseData = await httpClient({
-        url,
-        method: 'GET',
-        data: payload,
-        headers: {
-          'Authorization': `Bearer ${config.apiToken}`,
-          'Content-Type': 'application/json',
-        }
-      });
-
-      return responseData as BalanceSheetResponse;
+      const response: BalanceSheetResponse =  await httpGetRequest(GET_BALANCE_SHEET_PATH, payload);
+      return response?.Reports;
     } catch (error: unknown) {
       if (error instanceof Error) {
         // Handle api failure
